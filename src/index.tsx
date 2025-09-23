@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import { StrictMode, CSSProperties, useState } from 'react';
+import { StrictMode, CSSProperties, useState, useRef, useEffect } from 'react';
 import clsx from 'clsx';
 
 import { Article } from './components/article/Article';
@@ -13,10 +13,33 @@ const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
 
 const App = () => {
-	const [isOpen, setIsOpen] = useState(false); //ставим начальное состояние-форма закрыта
+	//ставим начальное состояние-форма закрыта
+	const [isOpen, setIsOpen] = useState(false);
 
 	//функция переключения, которая меняет isOpen на противоположное
 	const toggleOpen = () => setIsOpen((prev) => !prev);
+
+	//находим нужный сайдбар для закртия
+	const sidebarRef = useRef<HTMLElement | null>(null);
+
+	//вешаем слушателя
+	useEffect(() => {
+		function handleClickOutside(event: MouseEvent) {
+			const panel = sidebarRef.current; //панель
+			//закрыть панель
+			if (panel && !panel.contains(event.target as Node)) {
+				setIsOpen(false);
+			}
+		}
+
+		//вешаем слушателя на весь документ
+		document.addEventListener('mousedown', handleClickOutside);
+
+		//чистим слушателя
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, []);
 
 	return (
 		<main
@@ -31,7 +54,11 @@ const App = () => {
 				} as CSSProperties
 			}>
 			{/* проверяет, открыта она или нет и что делать при нажатии на стрелку */}
-			<ArticleParamsForm isOpen={isOpen} onClick={toggleOpen} />
+			<ArticleParamsForm
+				isOpen={isOpen}
+				onClick={toggleOpen}
+				ref={sidebarRef}
+			/>
 			<Article />
 		</main>
 	);
