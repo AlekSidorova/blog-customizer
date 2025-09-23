@@ -19,15 +19,16 @@ const App = () => {
 	//функция переключения, которая меняет isOpen на противоположное
 	const toggleOpen = () => setIsOpen((prev) => !prev);
 
-	//находим нужный сайдбар для закртия
+	//находим сайдбар
 	const sidebarRef = useRef<HTMLElement | null>(null);
 
-	//вешаем слушателя
+	//закрытие при клике вне
 	useEffect(() => {
 		function handleClickOutside(event: MouseEvent) {
-			const panel = sidebarRef.current; //панель
-			//закрыть панель
-			if (panel && !panel.contains(event.target as Node)) {
+			if (
+				sidebarRef.current &&
+				!sidebarRef.current.contains(event.target as Node)
+			) {
 				setIsOpen(false);
 			}
 		}
@@ -57,7 +58,7 @@ const App = () => {
 			<ArticleParamsForm
 				isOpen={isOpen}
 				onClick={toggleOpen}
-				ref={sidebarRef}
+				sidebarRef={sidebarRef}
 			/>
 			<Article />
 		</main>

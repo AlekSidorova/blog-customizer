@@ -1,4 +1,3 @@
-import { forwardRef } from 'react'; //перебрасываем ref из index.tsx и делаем его пропсом
 import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
 
@@ -9,18 +8,20 @@ import clsx from 'clsx';
 type ArticleParamsFormProps = {
 	isOpen: boolean; //открыта ли форма
 	onClick: () => void; //функция переключения (стрелка)
+	sidebarRef: React.RefObject<HTMLElement>; //ref на aside для клика вне
 };
 
-export const ArticleParamsForm = forwardRef<
-	HTMLElement,
-	ArticleParamsFormProps
->(({ isOpen, onClick }, ref) => {
+export const ArticleParamsForm = ({
+	isOpen,
+	onClick,
+	sidebarRef,
+}: ArticleParamsFormProps) => {
 	return (
 		<>
 			{/* используем просы - теперь при клике на стрелку isOpen будет меняться в App */}
 			<ArrowButton isOpen={isOpen} onClick={onClick} />
 			<aside
-				ref={ref}
+				ref={sidebarRef}
 				//собираем классы с помощью clsx
 				className={clsx(styles.container, { [styles.container_open]: isOpen })}>
 				<form className={styles.form}>
@@ -32,7 +33,4 @@ export const ArticleParamsForm = forwardRef<
 			</aside>
 		</>
 	);
-});
-
-//служебное имя для отладки
-ArticleParamsForm.displayName = 'ArticleParamsForm';
+};
