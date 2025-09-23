@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import { StrictMode, CSSProperties } from 'react';
+import { StrictMode, CSSProperties, useState } from 'react';
 import clsx from 'clsx';
 
 import { Article } from './components/article/Article';
@@ -13,6 +13,11 @@ const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
 
 const App = () => {
+	const [isOpen, setIsOpen] = useState(false); //ставим начальное состояние-форма закрыта
+
+	//функция переключения, которая меняет isOpen на противоположное
+	const toggleOpen = () => setIsOpen((prev) => !prev);
+
 	return (
 		<main
 			className={clsx(styles.main)}
@@ -25,7 +30,8 @@ const App = () => {
 					'--bg-color': defaultArticleState.backgroundColor.value,
 				} as CSSProperties
 			}>
-			<ArticleParamsForm />
+			{/* проверяет, открыта она или нет и что делать при нажатии на стрелку */}
+			<ArticleParamsForm isOpen={isOpen} onClick={toggleOpen} />
 			<Article />
 		</main>
 	);
