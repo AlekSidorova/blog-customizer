@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import { StrictMode, CSSProperties } from 'react';
+import { StrictMode, CSSProperties, useState, useRef, useEffect } from 'react';
 import clsx from 'clsx';
 
 import { Article } from './components/article/Article';
@@ -9,23 +9,98 @@ import { defaultArticleState } from './constants/articleProps';
 import './styles/index.scss';
 import styles from './styles/index.module.scss';
 
+type FormValues = {
+	fontFamily: string;
+	fontSize: string;
+	fontColor: string;
+	backgroundColor: string;
+	containerWidth: string;
+};
+
 const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
 
 const App = () => {
+	//ставим начальное состояние-форма закрыта
+	const [isOpen, setIsOpen] = useState(false);
+
+	//функция переключения, которая меняет isOpen на противоположное
+	const toggleOpen = () => setIsOpen((prev) => !prev);
+
+	//находим сайдбар
+	const sidebarRef = useRef<HTMLElement | null>(null);
+
+	//закрытие при клике вне
+	useEffect(() => {
+		function handleClickOutside(event: MouseEvent) {
+			if (
+				sidebarRef.current &&
+				!sidebarRef.current.contains(event.target as Node)
+			) {
+				setIsOpen(false);
+			}
+		}
+
+		//вешаем слушателя на весь документ
+		document.addEventListener('mousedown', handleClickOutside);
+
+		//чистим слушателя
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, []);
+
+	//значения по умолчанию
+	const defaultValues: FormValues = {
+		fontFamily: defaultArticleState.fontFamilyOption.value,
+		fontSize: defaultArticleState.fontSizeOption.value,
+		fontColor: defaultArticleState.fontColor.value,
+		backgroundColor: defaultArticleState.backgroundColor.value,
+		containerWidth: defaultArticleState.contentWidth.value,
+	};
+
+	//для хранения текущих значений формы
+	const [formValues, setFormValues] = useState<FormValues>(defaultValues);
+
+	//стили, которые применяются
+	const [pageStyles, setPageStyles] = useState<FormValues>(defaultValues);
+
+	//изменения формы
+	const handleChange = (name: keyof FormValues, value: string) => {
+		setFormValues((prev) => ({ ...prev, [name]: value }));
+	};
+
+	//обновление стилей
+	const applyChanges = () => setPageStyles(formValues);
+
+	//очищаем стили
+	const resetChanges = () => {
+		setFormValues(defaultValues);
+		setPageStyles(defaultValues);
+	};
+
 	return (
 		<main
 			className={clsx(styles.main)}
 			style={
 				{
-					'--font-family': defaultArticleState.fontFamilyOption.value,
-					'--font-size': defaultArticleState.fontSizeOption.value,
-					'--font-color': defaultArticleState.fontColor.value,
-					'--container-width': defaultArticleState.contentWidth.value,
-					'--bg-color': defaultArticleState.backgroundColor.value,
+					'--font-family': pageStyles.fontFamily,
+					'--font-size': pageStyles.fontSize,
+					'--font-color': pageStyles.fontColor,
+					'--container-width': pageStyles.containerWidth,
+					'--bg-color': pageStyles.backgroundColor,
 				} as CSSProperties
 			}>
-			<ArticleParamsForm />
+			{/* проверяет, открыта она или нет и что делать при нажатии на стрелку */}
+			<ArticleParamsForm
+				isOpen={isOpen}
+				onClick={toggleOpen}
+				sidebarRef={sidebarRef}
+				values={formValues}
+				onChange={handleChange}
+				onApply={applyChanges}
+				onReset={resetChanges}
+			/>
 			<Article />
 		</main>
 	);
