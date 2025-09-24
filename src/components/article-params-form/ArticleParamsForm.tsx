@@ -47,7 +47,8 @@ export const ArticleParamsForm = ({
 						e.preventDefault();
 						onApply();
 					}}>
-					{/* Простейшие контролы */}
+					<h2 className={styles.title}>Задайте параметры</h2>
+
 					<div>
 						<label>Шрифт</label>
 						<select
@@ -72,11 +73,31 @@ export const ArticleParamsForm = ({
 					</div>
 
 					<div>
-						<label>Цвет текста</label>
+						<label>Цвет шрифта</label>
 						<input
 							type='color'
 							value={values.fontColor}
 							onChange={(e) => onChange('fontColor', e.target.value)}
+						/>
+					</div>
+
+					<div>
+						<label>Цвет фона</label>
+						<input
+							type='color'
+							value={values.backgroundColor}
+							onChange={(e) => onChange('backgroundColor', e.target.value)}
+						/>
+					</div>
+
+					<div>
+						<label>Ширина контента</label>
+						<input
+							type='number'
+							value={parseInt(values.containerWidth)}
+							onChange={(e) =>
+								onChange('containerWidth', e.target.value + 'px')
+							}
 						/>
 					</div>
 
