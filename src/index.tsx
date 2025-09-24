@@ -50,6 +50,7 @@ const App = () => {
 		};
 	}, []);
 
+	//значения по умолчанию
 	const defaultValues: FormValues = {
 		fontFamily: defaultArticleState.fontFamilyOption.value,
 		fontSize: defaultArticleState.fontSizeOption.value,
@@ -58,15 +59,21 @@ const App = () => {
 		containerWidth: defaultArticleState.contentWidth.value,
 	};
 
+	//для хранения текущих значений формы
 	const [formValues, setFormValues] = useState<FormValues>(defaultValues);
+
+	//стили, которые применяются
 	const [pageStyles, setPageStyles] = useState<FormValues>(defaultValues);
 
+	//изменения формы
 	const handleChange = (name: keyof FormValues, value: string) => {
 		setFormValues((prev) => ({ ...prev, [name]: value }));
 	};
 
+	//обновление стилей
 	const applyChanges = () => setPageStyles(formValues);
 
+	//очищаем стили
 	const resetChanges = () => {
 		setFormValues(defaultValues);
 		setPageStyles(defaultValues);

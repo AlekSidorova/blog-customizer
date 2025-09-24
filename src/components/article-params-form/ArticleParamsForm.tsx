@@ -59,70 +59,62 @@ export const ArticleParamsForm = ({
 					}}>
 					<h2 className={styles.title}>Задайте параметры</h2>
 
-					<div>
-						<Select
-							title='Шрифт'
-							selected={
-								fontFamilyOptions.find(
-									(opt) => opt.value === values.fontFamily
-								) || null
-							}
-							options={fontFamilyOptions}
-							onChange={(option) => onChange('fontFamily', option.value)}
-						/>
-					</div>
+					<Select
+						title='Шрифт'
+						//указываем, какой элемент должен быть выбран
+						selected={
+							fontFamilyOptions.find(
+								(opt) => opt.value === values.fontFamily
+							) || null
+						}
+						options={fontFamilyOptions}
+						//изменения
+						onChange={(option) => onChange('fontFamily', option.value)}
+					/>
 
-					<div>
-						<RadioGroup
-							title='Размер шрифта'
-							name='fontSize'
-							options={fontSizeOptions}
-							selected={
-								fontSizeOptions.find((opt) => opt.value === values.fontSize) ||
-								fontSizeOptions[0]
-							}
-							onChange={(option) => onChange('fontSize', option.value)}
-						/>
-					</div>
+					<RadioGroup
+						title='Размер шрифта'
+						name='fontSize'
+						options={fontSizeOptions}
+						selected={
+							fontSizeOptions.find((opt) => opt.value === values.fontSize) ||
+							fontSizeOptions[0]
+						}
+						onChange={(option) => onChange('fontSize', option.value)}
+					/>
 
-					<div>
-						<Select
-							title='Цвет шрифта'
-							selected={
-								fontColors.find((opt) => opt.value === values.fontColor) || null
-							}
-							options={fontColors}
-							onChange={(option) => onChange('fontColor', option.value)}
-						/>
-					</div>
+					<Select
+						title='Цвет шрифта'
+						selected={
+							fontColors.find((opt) => opt.value === values.fontColor) || null
+						}
+						options={fontColors}
+						onChange={(option) => onChange('fontColor', option.value)}
+					/>
 
 					<Separator />
 
-					<div>
-						<Select
-							title='Цвет фона'
-							selected={
-								backgroundColors.find(
-									(opt) => opt.value === values.backgroundColor
-								) || null
-							}
-							options={backgroundColors}
-							onChange={(option) => onChange('backgroundColor', option.value)}
-						/>
-					</div>
+					<Select
+						title='Цвет фона'
+						selected={
+							backgroundColors.find(
+								(opt) => opt.value === values.backgroundColor
+							) || null
+						}
+						options={backgroundColors}
+						onChange={(option) => onChange('backgroundColor', option.value)}
+					/>
 
-					<div>
-						<Select
-							title='Ширина контента'
-							selected={
-								contentWidthArr.find(
-									(opt) => opt.value === values.containerWidth
-								) || null
-							}
-							options={contentWidthArr}
-							onChange={(option) => onChange('containerWidth', option.value)}
-						/>
-					</div>
+					<Select
+						title='Ширина контента'
+						selected={
+							contentWidthArr.find(
+								(opt) => opt.value === values.containerWidth
+							) || null
+						}
+						options={contentWidthArr}
+						onChange={(option) => onChange('containerWidth', option.value)}
+					/>
 
 					<div className={styles.bottomContainer}>
 						<Button title='Сбросить' type='clear' onClick={onReset} />
