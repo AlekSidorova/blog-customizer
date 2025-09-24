@@ -1,5 +1,8 @@
 import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
+import { Select } from 'src/ui/select';
+import { RadioGroup } from 'src/ui/radio-group';
+import { Separator } from 'src/ui/separator';
 import {
 	fontFamilyOptions,
 	fontColors,
@@ -57,69 +60,68 @@ export const ArticleParamsForm = ({
 					<h2 className={styles.title}>Задайте параметры</h2>
 
 					<div>
-						<label>Шрифт</label>
-						<select
-							value={values.fontFamily}
-							onChange={(e) => onChange('fontFamily', e.target.value)}>
-							{/* перебираем шрифты */}
-							{fontFamilyOptions.map((opt) => (
-								<option key={opt.value} value={opt.value}>
-									{opt.title}
-								</option>
-							))}
-						</select>
+						<Select
+							title='Шрифт'
+							selected={
+								fontFamilyOptions.find(
+									(opt) => opt.value === values.fontFamily
+								) || null
+							}
+							options={fontFamilyOptions}
+							onChange={(option) => onChange('fontFamily', option.value)}
+						/>
 					</div>
 
 					<div>
-						<label>Размер шрифта</label>
-						<select
-							value={values.fontSize}
-							onChange={(e) => onChange('fontSize', e.target.value)}>
-							{fontSizeOptions.map((opt) => (
-								<option key={opt.value} value={opt.value}>
-									{opt.title}
-								</option>
-							))}
-						</select>
+						<RadioGroup
+							title='Размер шрифта'
+							name='fontSize'
+							options={fontSizeOptions}
+							selected={
+								fontSizeOptions.find((opt) => opt.value === values.fontSize) ||
+								fontSizeOptions[0]
+							}
+							onChange={(option) => onChange('fontSize', option.value)}
+						/>
 					</div>
 
 					<div>
-						<label>Цвет шрифта</label>
-						<select
-							value={values.fontColor}
-							onChange={(e) => onChange('fontColor', e.target.value)}>
-							{fontColors.map((opt) => (
-								<option key={opt.value} value={opt.value}>
-									{opt.title}
-								</option>
-							))}
-						</select>
+						<Select
+							title='Цвет шрифта'
+							selected={
+								fontColors.find((opt) => opt.value === values.fontColor) || null
+							}
+							options={fontColors}
+							onChange={(option) => onChange('fontColor', option.value)}
+						/>
+					</div>
+
+					<Separator />
+
+					<div>
+						<Select
+							title='Цвет фона'
+							selected={
+								backgroundColors.find(
+									(opt) => opt.value === values.backgroundColor
+								) || null
+							}
+							options={backgroundColors}
+							onChange={(option) => onChange('backgroundColor', option.value)}
+						/>
 					</div>
 
 					<div>
-						<label>Цвет фона</label>
-						<select
-							value={values.backgroundColor}
-							onChange={(e) => onChange('backgroundColor', e.target.value)}>
-							{backgroundColors.map((opt) => (
-								<option key={opt.value} value={opt.value}>
-									{opt.title}
-								</option>
-							))}
-						</select>
-					</div>
-
-					<div>
-						<label>Ширина контента</label>
-						<select
-							value={values.containerWidth}
-							onChange={(e) => onChange('containerWidth', e.target.value)}>
-							{contentWidthArr.map((opt) => (
-								<option key={opt.value} value={opt.value}>
-									{opt.title}
-								</option>
-							))}
-						</select>
+						<Select
+							title='Ширина контента'
+							selected={
+								contentWidthArr.find(
+									(opt) => opt.value === values.containerWidth
+								) || null
+							}
+							options={contentWidthArr}
+							onChange={(option) => onChange('containerWidth', option.value)}
+						/>
 					</div>
 
 					<div className={styles.bottomContainer}>
