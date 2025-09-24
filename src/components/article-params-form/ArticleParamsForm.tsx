@@ -1,5 +1,12 @@
 import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
+import {
+	fontFamilyOptions,
+	fontColors,
+	backgroundColors,
+	contentWidthArr,
+	fontSizeOptions,
+} from 'src/constants/articleProps';
 
 import styles from './ArticleParamsForm.module.scss';
 import clsx from 'clsx';
@@ -54,51 +61,65 @@ export const ArticleParamsForm = ({
 						<select
 							value={values.fontFamily}
 							onChange={(e) => onChange('fontFamily', e.target.value)}>
-							<option value="'Open sans', sans-serif">Open Sans</option>
-							<option value="'Cormorant Garamond', serif">
-								Cormorant Garamond
-							</option>
-							<option value="'Days One', sans-serif">Days One</option>
-							<option value="'Merriweather', serif">Merriweather</option>
+							{/* перебираем шрифты */}
+							{fontFamilyOptions.map((opt) => (
+								<option key={opt.value} value={opt.value}>
+									{opt.title}
+								</option>
+							))}
 						</select>
 					</div>
 
 					<div>
 						<label>Размер шрифта</label>
-						<input
-							type='number'
-							value={parseInt(values.fontSize)}
-							onChange={(e) => onChange('fontSize', e.target.value + 'px')}
-						/>
+						<select
+							value={values.fontSize}
+							onChange={(e) => onChange('fontSize', e.target.value)}>
+							{fontSizeOptions.map((opt) => (
+								<option key={opt.value} value={opt.value}>
+									{opt.title}
+								</option>
+							))}
+						</select>
 					</div>
 
 					<div>
 						<label>Цвет шрифта</label>
-						<input
-							type='color'
+						<select
 							value={values.fontColor}
-							onChange={(e) => onChange('fontColor', e.target.value)}
-						/>
+							onChange={(e) => onChange('fontColor', e.target.value)}>
+							{fontColors.map((opt) => (
+								<option key={opt.value} value={opt.value}>
+									{opt.title}
+								</option>
+							))}
+						</select>
 					</div>
 
 					<div>
 						<label>Цвет фона</label>
-						<input
-							type='color'
+						<select
 							value={values.backgroundColor}
-							onChange={(e) => onChange('backgroundColor', e.target.value)}
-						/>
+							onChange={(e) => onChange('backgroundColor', e.target.value)}>
+							{backgroundColors.map((opt) => (
+								<option key={opt.value} value={opt.value}>
+									{opt.title}
+								</option>
+							))}
+						</select>
 					</div>
 
 					<div>
 						<label>Ширина контента</label>
-						<input
-							type='number'
-							value={parseInt(values.containerWidth)}
-							onChange={(e) =>
-								onChange('containerWidth', e.target.value + 'px')
-							}
-						/>
+						<select
+							value={values.containerWidth}
+							onChange={(e) => onChange('containerWidth', e.target.value)}>
+							{contentWidthArr.map((opt) => (
+								<option key={opt.value} value={opt.value}>
+									{opt.title}
+								</option>
+							))}
+						</select>
 					</div>
 
 					<div className={styles.bottomContainer}>
